@@ -10,21 +10,21 @@
 
 pkgbase=linux-git
 _srcname=linux
-pkgver=5.3rc2.r193.gdcb8cfbd8fe9
+pkgver=5.3-rc4
 pkgrel=1
 arch=('i686' 'x86_64')
 url="http://www.kernel.org/"
 license=('GPL2')
 makedepends=('xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'git' 'libelf')
 options=('!strip')
-source=('git+https://kernel.googlesource.com/pub/scm/linux/kernel/git/torvalds/linux'
+source=('https://github.com/torvalds/linux/archive/${pkgver}.tar.gz'
         # the main kernel config files
         'config' 'config.x86_64'
         # standard config files for mkinitcpio ramdisk
         "${pkgbase}.preset")
 sha256sums=('SKIP'
             'becc0c98cff692dee9500f19d38882636caf4c58d5086c7725690a245532f5dc'
-            'd9930ba05c74dc88b938fbf91ea0ca8c9e9caf4314db607c18650e2f4b42eee4'
+            'SKIP'
             '95fcfdfcb9d540d1a1428ce61e493ddf2c2a8ec96c8573deeadbb4ee407508c7')
 
 _kernelname=${pkgbase#linux}
@@ -36,6 +36,8 @@ pkgver() {
 }
 
 prepare() {
+  ln -s "linux-${pkgver}" linux
+
   cd "${_srcname}"
 
   if [ "${CARCH}" = "x86_64" ]; then
@@ -126,7 +128,7 @@ _package() {
   mv "${pkgdir}/lib" "${pkgdir}/usr/"
 
   # add vmlinux
-  install -D -m644 vmlinux "${pkgdir}/usr/lib/modules/${_kernver}/build/vmlinux" 
+  install -D -m644 vmlinux "${pkgdir}/usr/lib/modules/${_kernver}/build/vmlinux"
 
   # add System.map
   install -D -m644 System.map "${pkgdir}/boot/System.map-${_kernver}"
