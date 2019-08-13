@@ -21,9 +21,11 @@ options=('!strip')
 source=("https://github.com/torvalds/linux/archive/${_branchname}.tar.gz"
         # the main kernel config files
         'config.x86_64'
+        'config.opt'
         # standard config files for mkinitcpio ramdisk
         "${pkgbase}.preset")
 sha256sums=('SKIP'
+            'SKIP'
             'SKIP'
             '95fcfdfcb9d540d1a1428ce61e493ddf2c2a8ec96c8573deeadbb4ee407508c7')
 
