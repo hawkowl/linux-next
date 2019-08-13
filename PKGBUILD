@@ -20,31 +20,25 @@ makedepends=('xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'git' 'libelf')
 options=('!strip')
 source=("https://github.com/torvalds/linux/archive/${_branchname}.tar.gz"
         # the main kernel config files
-        'config' 'config.x86_64'
+        'config.x86_64'
         # standard config files for mkinitcpio ramdisk
         "${pkgbase}.preset")
 sha256sums=('SKIP'
-            'becc0c98cff692dee9500f19d38882636caf4c58d5086c7725690a245532f5dc'
             'SKIP'
             '95fcfdfcb9d540d1a1428ce61e493ddf2c2a8ec96c8573deeadbb4ee407508c7')
 
 _kernelname=${pkgbase#linux}
 
-pkgver() {
-  cd "${_srcname}"
-
-  git describe --long | sed -E 's/^v//;s/([^-]*-g)/r\1/;s/-/./g;s/\.rc/rc/'
-}
-
 prepare() {
-  ln -s "linux-${pkgver//_/-}" linux
+  ln -f -s "linux-${pkgver//_/-}" linux
 
   cd "${_srcname}"
 
   if [ "${CARCH}" = "x86_64" ]; then
     cat "${srcdir}/config.x86_64" > ./.config
   else
-    cat "${srcdir}/config" > ./.config
+    # 32bit doesn't exist shhhhh
+    exit 1
   fi
 
   # set localversion to git commit
@@ -54,17 +48,13 @@ prepare() {
   # don't run depmod on 'make install'. We'll do this ourselves in packaging
   sed -i '2iexit 0' scripts/depmod.sh
 
+  make olddefconfig
+
   # get kernel version
   make prepare
 
-  # load configuration
-  # Configure the kernel. Replace the line below with one of your choice.
-  #make menuconfig # CLI menu for configuration
-  #make nconfig # new CLI menu for configuration
-  #make xconfig # X-based configuration
-  #make oldconfig # using old config from previous kernel version
-  make olddefconfig # old config from previous kernel, defaults for new options
-  # ... or manually edit .config
+  # Make it a native build
+  sed -i "s/cflags-\$(CONFIG_GENERIC_CPU) += \$(call cc-option,-mtune=generic)/cflags-\$(CONFIG_GENERIC_CPU) += \$(call cc-option,-march=native)/" arch/x86/Makefile
 }
 
 build() {
