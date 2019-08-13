@@ -10,14 +10,15 @@
 
 pkgbase=linux-git
 _srcname=linux
-pkgver=5.3-rc4
+pkgver=5.3_rc4
+_branchname="v${pkgver//_/-}"
 pkgrel=1
 arch=('i686' 'x86_64')
 url="http://www.kernel.org/"
 license=('GPL2')
 makedepends=('xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'git' 'libelf')
 options=('!strip')
-source=('https://github.com/torvalds/linux/archive/${pkgver}.tar.gz'
+source=("https://github.com/torvalds/linux/archive/${_branchname}.tar.gz"
         # the main kernel config files
         'config' 'config.x86_64'
         # standard config files for mkinitcpio ramdisk
@@ -36,7 +37,7 @@ pkgver() {
 }
 
 prepare() {
-  ln -s "linux-${pkgver}" linux
+  ln -s "linux-${pkgver//_/-}" linux
 
   cd "${_srcname}"
 
