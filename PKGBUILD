@@ -34,7 +34,9 @@ prepare() {
 
   cd "${_srcname}"
 
-  if [ "${CARCH}" = "x86_64" ]; then
+  if [ -f "${srcdir}/config.opt" ]; then
+    cat "${srcdir}/config.opt" > ./.config
+  elif [ "${CARCH}" = "x86_64" ]; then
     cat "${srcdir}/config.x86_64" > ./.config
   else
     # 32bit doesn't exist shhhhh
