@@ -183,11 +183,6 @@ _package-headers() {
   mkdir -p "${pkgdir}/usr/lib/modules/${_kernver}/build/net/mac80211/"
   cp net/mac80211/*.h "${pkgdir}/usr/lib/modules/${_kernver}/build/net/mac80211/"
 
-  # add dvb headers for external modules
-  # http://bugs.archlinux.org/task/11194
-  mkdir -p "${pkgdir}/usr/lib/modules/${_kernver}/build/include/config/dvb/"
-  cp include/config/dvb/*.h "${pkgdir}/usr/lib/modules/${_kernver}/build/include/config/dvb/"
-
   # add xfs and shmem for aufs building
   mkdir -p "${pkgdir}/usr/lib/modules/${_kernver}/build/fs/xfs"
   mkdir -p "${pkgdir}/usr/lib/modules/${_kernver}/build/mm"
