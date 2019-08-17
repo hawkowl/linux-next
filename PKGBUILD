@@ -26,12 +26,12 @@ source=("https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/sna
 sha256sums=('SKIP'
             'SKIP'
             'SKIP'
-            '95fcfdfcb9d540d1a1428ce61e493ddf2c2a8ec96c8573deeadbb4ee407508c7')
+            'SKIP')
 
 _kernelname=${pkgbase#linux}
 
 prepare() {
-  ln -f -s "linux-${pkgver//_/-}" linux
+  ln -f -s "linux-next-next-${pkgver//_/-}" linux
 
   cd "${_srcname}"
 
