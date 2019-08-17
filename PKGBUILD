@@ -8,17 +8,16 @@
 # Contributor: Brad McCormack <bradmccormack100 at gmail.com>
 # Contributor: Doug Johnson <dougvj at dougvj.net>
 
-pkgbase=linux-git
+pkgbase=linux-next
 _srcname=linux
-pkgver=5.3_rc4
-_branchname="v${pkgver//_/-}"
+pkgver=20190816
 pkgrel=1
 arch=('i686' 'x86_64')
 url="http://www.kernel.org/"
 license=('GPL2')
 makedepends=('xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'git' 'libelf')
 options=('!strip')
-source=("https://github.com/torvalds/linux/archive/${_branchname}.tar.gz"
+source=("https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/snapshot/linux-next-next-${pkgver}.tar.gz"
         # the main kernel config files
         'config.x86_64'
         'config.opt'
@@ -68,7 +67,7 @@ build() {
 }
 
 _package() {
-  pkgdesc="The Linux kernel and modules (git version)"
+  pkgdesc="The Linux kernel and modules (linux-next version)"
   depends=('coreutils' 'linux-firmware' 'kmod' 'mkinitcpio>=0.7')
   optdepends=('crda: to set the correct wireless channels of your country')
   provides=('linux')
@@ -130,7 +129,7 @@ _package() {
 }
 
 _package-headers() {
-  pkgdesc="Header files and scripts for building modules for Linux kernel (git version)"
+  pkgdesc="Header files and scripts for building modules for Linux kernel (next version)"
   provides=('linux-headers')
 
   install -dm755 "${pkgdir}/usr/lib/modules/${_kernver}"
