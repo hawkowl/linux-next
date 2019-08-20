@@ -10,7 +10,7 @@
 
 pkgbase=linux-next
 _srcname=linux
-pkgver=20190816
+pkgver=20190820
 pkgrel=1
 arch=('i686' 'x86_64')
 url="http://www.kernel.org/"
